@@ -1,5 +1,5 @@
 import { App } from "@slack/bolt";
-import { extractTextFromFiles } from "./fileHandler";
+import { extractFilesFromSlack } from "./fileHandler";
 import { analyzeDocument } from "./analyzer";
 
 const app = new App({
@@ -39,13 +39,13 @@ app.event("app_mention", async ({ event, client, say }) => {
 
     if (files.length === 0) {
       await say({
-        text: "Não encontrei nenhum documento nesta thread. Envie um PDF ou DOCX do Termo de Referência e me mencione novamente.",
+        text: "Não encontrei nenhum documento nesta thread. Envie um PDF ou DOCX e me mencione novamente.",
         thread_ts: threadTs,
       });
       return;
     }
 
-    // Filtra apenas PDFs e DOCs
+    // Filtra apenas formatos suportados
     const supportedFiles = files.filter((f: any) =>
       ["pdf", "docx", "doc", "txt", "md"].includes(f.filetype)
     );
@@ -64,20 +64,20 @@ app.event("app_mention", async ({ event, client, say }) => {
       thread_ts: threadTs,
     });
 
-    // Extrai texto dos arquivos
-    const extractedTexts = await extractTextFromFiles(client, supportedFiles);
-    const fullText = extractedTexts.join("\n\n");
+    // Extrai conteúdo dos arquivos (texto ou buffer pra Vision)
+    const extractedFiles = await extractFilesFromSlack(client, supportedFiles);
 
-    if (!fullText.trim()) {
+    const hasContent = extractedFiles.some((f) => f.text || f.pdfBuffer);
+    if (!hasContent) {
       await say({
-        text: "Não consegui extrair texto dos documentos. O PDF pode ser uma imagem escaneada, ou o arquivo pode estar corrompido. Tente enviar uma versão com texto selecionável.",
+        text: "Não consegui extrair conteúdo dos documentos. O arquivo pode estar corrompido. Tente enviar novamente.",
         thread_ts: threadTs,
       });
       return;
     }
 
     // Analisa com Claude (classifica + analisa)
-    const { analysis } = await analyzeDocument(fullText);
+    const { analysis } = await analyzeDocument(extractedFiles);
 
     // Responde na thread (divide se muito longo pro Slack)
     const MAX_SLACK_MSG = 3900;
@@ -87,7 +87,6 @@ app.event("app_mention", async ({ event, client, say }) => {
         thread_ts: threadTs,
       });
     } else {
-      // Divide em blocos respeitando quebras de linha
       const chunks = splitMessage(analysis, MAX_SLACK_MSG);
       for (const chunk of chunks) {
         await say({
@@ -115,10 +114,8 @@ function splitMessage(text: string, maxLength: number): string[] {
       break;
     }
 
-    // Tenta cortar numa quebra de linha
     let cutIndex = remaining.lastIndexOf("\n", maxLength);
     if (cutIndex < maxLength * 0.5) {
-      // Se a quebra de linha está muito longe, corta no espaço
       cutIndex = remaining.lastIndexOf(" ", maxLength);
     }
     if (cutIndex <= 0) {

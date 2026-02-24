@@ -10,33 +10,38 @@ interface SlackFile {
   filetype: string;
 }
 
-export async function extractTextFromFiles(
+export interface ExtractedFile {
+  name: string;
+  text?: string;
+  /** PDF bruto para fallback via Claude Vision (quando pdf-parse não extrai texto) */
+  pdfBuffer?: Buffer;
+}
+
+const MIN_TEXT_LENGTH = 50; // abaixo disso, provavelmente é PDF escaneado
+
+export async function extractFilesFromSlack(
   client: WebClient,
   files: SlackFile[]
-): Promise<string[]> {
-  const results: string[] = [];
+): Promise<ExtractedFile[]> {
+  const results: ExtractedFile[] = [];
 
   for (const file of files) {
     try {
-      const text = await extractSingleFile(client, file);
-      if (text.trim()) {
-        results.push(`--- Arquivo: ${file.name} ---\n\n${text}`);
-      }
+      const result = await extractSingleFile(client, file);
+      results.push(result);
     } catch (err) {
       console.error(`Erro ao processar arquivo ${file.name}:`, err);
-      results.push(
-        `--- Arquivo: ${file.name} ---\n\n[Erro ao extrair texto deste arquivo. Formato: ${file.filetype}]`
-      );
+      results.push({
+        name: file.name,
+        text: `[Erro ao extrair texto deste arquivo. Formato: ${file.filetype}]`,
+      });
     }
   }
 
   return results;
 }
 
-async function extractSingleFile(
-  client: WebClient,
-  file: SlackFile
-): Promise<string> {
+async function downloadFile(file: SlackFile): Promise<Buffer> {
   const response = await fetch(file.url_private, {
     headers: {
       Authorization: `Bearer ${process.env.SLACK_BOT_TOKEN}`,
@@ -47,29 +52,53 @@ async function extractSingleFile(
     throw new Error(`Falha ao baixar arquivo: ${response.status}`);
   }
 
-  const buffer = Buffer.from(await response.arrayBuffer());
+  return Buffer.from(await response.arrayBuffer());
+}
 
+async function extractSingleFile(
+  client: WebClient,
+  file: SlackFile
+): Promise<ExtractedFile> {
+  const buffer = await downloadFile(file);
+
+  // PDF: tenta extrair texto, se falhar manda o buffer pra Vision
   if (file.filetype === "pdf" || file.mimetype === "application/pdf") {
-    const data = await pdfParse(buffer);
-    return data.text;
+    try {
+      const data = await pdfParse(buffer);
+      const text = data.text?.trim() || "";
+
+      if (text.length >= MIN_TEXT_LENGTH) {
+        return { name: file.name, text };
+      }
+    } catch (err) {
+      console.warn(`pdf-parse falhou para ${file.name}, usando Vision fallback`);
+    }
+
+    // Fallback: envia o PDF bruto pro Claude Vision
+    console.log(`PDF "${file.name}" sem texto extraível, usando Claude Vision`);
+    return { name: file.name, pdfBuffer: buffer };
   }
 
+  // DOCX
   if (
     file.filetype === "docx" ||
     file.mimetype ===
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
   ) {
     const result = await mammoth.extractRawText({ buffer });
-    return result.value;
+    return { name: file.name, text: result.value };
   }
 
+  // DOC antigo
   if (file.filetype === "doc" || file.mimetype === "application/msword") {
-    // mammoth tem suporte limitado a .doc, mas tenta
     try {
       const result = await mammoth.extractRawText({ buffer });
-      return result.value;
+      return { name: file.name, text: result.value };
     } catch {
-      return "[Formato .doc antigo - converta para .docx ou .pdf para melhor resultado]";
+      return {
+        name: file.name,
+        text: "[Formato .doc antigo - converta para .docx ou .pdf para melhor resultado]",
+      };
     }
   }
 
@@ -78,8 +107,11 @@ async function extractSingleFile(
     file.mimetype?.startsWith("text/") ||
     ["txt", "md", "csv"].includes(file.filetype)
   ) {
-    return buffer.toString("utf-8");
+    return { name: file.name, text: buffer.toString("utf-8") };
   }
 
-  return `[Formato não suportado: ${file.filetype}. Use PDF ou DOCX.]`;
+  return {
+    name: file.name,
+    text: `[Formato não suportado: ${file.filetype}. Use PDF ou DOCX.]`,
+  };
 }
