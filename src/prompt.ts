@@ -25,7 +25,12 @@ Ao receber o texto de um Termo de Referência, faça uma análise completa e est
 - Modalidade/tipo de contratação identificada
 - Estrutura da prova de conceito, com data prevista, percentual mínimo de aprovação e condições de participação e condução da sessão.
 
-### 2. CHECKLIST DE SEÇÕES OBRIGATÓRIAS
+### 2. DATAS E PRAZOS CRÍTICOS
+- **Data do certame/sessão pública**: identifique a data e horário previstos para a sessão de abertura. Se não estiver explícita, alerte que está ausente.
+- **Prazo de impugnação**: calcule a data-limite para impugnação do documento com base na data do certame e nos prazos legais aplicáveis (Art. 164 da Lei 14.133/2021: até 3 dias úteis antes da abertura para pregão; até 10 dias úteis antes para concorrência). Apresente a data calculada.
+- **Prazo para POC da primeira colocada**: identifique o prazo previsto no documento para que a licitante primeira colocada realize a Prova de Conceito (POC/amostra). Se houver, informe prazo, local e condições. Se não houver previsão de POC, informe que não foi identificada.
+
+### 3. CHECKLIST DE SEÇÕES OBRIGATÓRIAS
 Verifique a presença e qualidade de cada item (use ✅ presente e adequado, ⚠️ presente mas incompleto, ❌ ausente):
 
 - [ ] Definição do objeto
@@ -43,7 +48,7 @@ Verifique a presença e qualidade de cada item (use ✅ presente e adequado, ⚠
 - [ ] Sanções e penalidades
 - [ ] Critérios de sustentabilidade (quando aplicável)
 
-### 3. PONTOS DE ATENÇÃO
+### 4. PONTOS DE ATENÇÃO
 Liste problemas, riscos ou ambiguidades encontrados:
 - Cláusulas vagas ou genéricas demais
 - Critérios de aceitação mal definidos
@@ -52,13 +57,13 @@ Liste problemas, riscos ou ambiguidades encontrados:
 - Ausência de métricas objetivas
 - Riscos contratuais para a contratante
 
-### 4. CONFORMIDADE LEGAL
+### 5. CONFORMIDADE LEGAL
 Avalie a aderência à legislação aplicável:
 - Lei 14.133/2021 (Nova Lei de Licitações) — se parecer contratação pública
 - IN SGD/ME (se for TI/software no governo)
 - Normas setoriais identificáveis
 
-### 5. SUGESTÕES DE MELHORIA
+### 6. SUGESTÕES DE MELHORIA
 Recomendações concretas e acionáveis para melhorar o documento.
 
 
@@ -89,7 +94,12 @@ Ao receber o texto de um Edital de Licitação, faça uma análise completa e es
 - Número do processo/edital
 - Estrutura da prova de conceito, com data prevista, percentual mínimo de aprovação e condições de participação e condução da sessão.
 
-### 2. CHECKLIST DE SEÇÕES OBRIGATÓRIAS
+### 2. DATAS E PRAZOS CRÍTICOS
+- **Data do certame/sessão pública**: identifique a data e horário previstos para a sessão de abertura. Se não estiver explícita, alerte que está ausente.
+- **Prazo de impugnação**: calcule a data-limite para impugnação do edital com base na data do certame e nos prazos legais aplicáveis (Art. 164 da Lei 14.133/2021: até 3 dias úteis antes da abertura para pregão; até 10 dias úteis antes para concorrência). Apresente a data calculada.
+- **Prazo para POC da primeira colocada**: identifique o prazo previsto no edital para que a licitante primeira colocada realize a Prova de Conceito (POC/amostra). Se houver, informe prazo, local e condições. Se não houver previsão de POC, informe que não foi identificada.
+
+### 3. CHECKLIST DE SEÇÕES OBRIGATÓRIAS
 Verifique a presença e qualidade de cada item (use ✅ presente e adequado, ⚠️ presente mas incompleto, ❌ ausente):
 
 - [ ] Preâmbulo (número, modalidade, órgão, legislação de regência)
@@ -106,7 +116,7 @@ Verifique a presença e qualidade de cada item (use ✅ presente e adequado, ⚠
 - [ ] Anexos (minuta de contrato, TR, planilhas)
 - [ ] Cronograma do certame (datas de abertura, sessão, etc.)
 
-### 3. PONTOS DE ATENÇÃO
+### 4. PONTOS DE ATENÇÃO
 Liste problemas, riscos ou ambiguidades encontrados:
 - Cláusulas restritivas que limitam competitividade
 - Exigências de habilitação desproporcionais ao objeto
@@ -116,14 +126,14 @@ Liste problemas, riscos ou ambiguidades encontrados:
 - Possível direcionamento a fornecedores específicos
 - Inconsistências entre o edital e seus anexos
 
-### 4. CONFORMIDADE LEGAL
+### 5. CONFORMIDADE LEGAL
 Avalie a aderência à legislação aplicável:
 - Lei 14.133/2021 (Nova Lei de Licitações) ou Lei 8.666/93 (se referenciada)
 - Lei Complementar 123/2006 (tratamento diferenciado para ME/EPP)
 - Decreto 10.024/2019 (Pregão Eletrônico) — se aplicável
 - Normas setoriais identificáveis
 
-### 5. CHECKLIST DE HABILITAÇÃO
+### 6. CHECKLIST DE HABILITAÇÃO
 Liste de forma pormenorizada e referenciada, todos os requisitos existentes para habilitação, para que nosso analista possa separar a documentação necessária para participação.
 
 
