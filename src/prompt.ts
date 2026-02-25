@@ -87,6 +87,26 @@ Siga EXATAMENTE esta estrutura de saída:
 
 ━━━━━━━━━━━━━━━━━━━━━━
 
+📋 *CHECKLIST DE HABILITAÇÃO*
+
+[Se o documento mencionar requisitos de habilitação, liste de forma pormenorizada TODOS os requisitos exigidos, para que o analista possa separar a documentação necessária. Use 📎 como marcador para cada documento/requisito, agrupando por categoria. Ao final de CADA item, indique entre parênteses a referência exata de onde consta no documento (seção, item, página ou cláusula). Exemplo: 📎 Certidão negativa de débitos federais _(item 8.2.1, pág. 12)_]
+
+*Habilitação Jurídica:*
+[itens com referência]
+
+*Regularidade Fiscal e Trabalhista:*
+[itens com referência]
+
+*Qualificação Técnica:*
+[itens com referência]
+
+*Qualificação Econômico-Financeira:*
+[itens com referência]
+
+Se não houver requisitos de habilitação no documento, informar: "Requisitos de habilitação não identificados neste documento (verificar edital correspondente)."
+
+━━━━━━━━━━━━━━━━━━━━━━
+
 💡 *SUGESTÕES DE MELHORIA*
 
 [Liste recomendações concretas com 🔹 como marcador, uma por linha]
@@ -180,19 +200,19 @@ Siga EXATAMENTE esta estrutura de saída:
 
 📋 *CHECKLIST DE HABILITAÇÃO*
 
-[Liste de forma pormenorizada TODOS os requisitos de habilitação exigidos no edital, para que o analista possa separar a documentação necessária. Use 📎 como marcador para cada documento/requisito, agrupando por categoria:]
+[Liste de forma pormenorizada TODOS os requisitos de habilitação exigidos no edital, para que o analista possa separar a documentação necessária. Use 📎 como marcador para cada documento/requisito, agrupando por categoria. Ao final de CADA item, indique entre parênteses a referência exata de onde consta no edital (seção, item, página ou cláusula). Exemplo: 📎 Certidão negativa de débitos federais _(item 8.2.1, pág. 12)_]
 
 *Habilitação Jurídica:*
-[itens]
+[itens com referência]
 
 *Regularidade Fiscal e Trabalhista:*
-[itens]
+[itens com referência]
 
 *Qualificação Técnica:*
-[itens]
+[itens com referência]
 
 *Qualificação Econômico-Financeira:*
-[itens]
+[itens com referência]
 
 Regras finais:
 - Seja objetivo e direto
