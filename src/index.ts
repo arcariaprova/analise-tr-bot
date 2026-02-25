@@ -1,6 +1,6 @@
 import { App } from "@slack/bolt";
 import { extractFilesFromSlack } from "./fileHandler";
-import { analyzeDocument } from "./analyzer";
+import { analyzeDocument, OverloadedError } from "./analyzer";
 
 const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
@@ -97,10 +97,18 @@ app.event("app_mention", async ({ event, client, say }) => {
     }
   } catch (err) {
     console.error("Erro ao processar menção:", err);
-    await say({
-      text: "Ocorreu um erro ao processar o documento. Tente novamente em alguns instantes.",
-      thread_ts: threadTs,
-    });
+
+    if (err instanceof OverloadedError) {
+      await say({
+        text: "⏳ Os servidores da Anthropic (Claude) estão com alto tráfego neste momento. Tentei 3 vezes mas não consegui processar. Tente novamente em alguns minutos.",
+        thread_ts: threadTs,
+      });
+    } else {
+      await say({
+        text: "Ocorreu um erro ao processar o documento. Tente novamente em alguns instantes.",
+        thread_ts: threadTs,
+      });
+    }
   }
 });
 

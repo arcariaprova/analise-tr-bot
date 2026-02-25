@@ -9,6 +9,13 @@ const MAX_TEXT_LENGTH = 180_000;
 const MAX_RETRIES = 3;
 const RETRY_DELAY_MS = 5_000;
 
+export class OverloadedError extends Error {
+  constructor() {
+    super("API da Anthropic sobrecarregada");
+    this.name = "OverloadedError";
+  }
+}
+
 async function callWithRetry<T>(fn: () => Promise<T>): Promise<T> {
   for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
     try {
@@ -25,6 +32,7 @@ async function callWithRetry<T>(fn: () => Promise<T>): Promise<T> {
         await new Promise((r) => setTimeout(r, RETRY_DELAY_MS * attempt));
         continue;
       }
+      if (isRetryable) throw new OverloadedError();
       throw err;
     }
   }
