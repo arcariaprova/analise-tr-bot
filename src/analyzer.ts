@@ -6,7 +6,30 @@ const anthropic = new Anthropic();
 
 const model = process.env.CLAUDE_MODEL || "claude-sonnet-4-20250514";
 const MAX_TEXT_LENGTH = 180_000;
-const MAX_PDF_PAGES = 50;
+const MAX_RETRIES = 3;
+const RETRY_DELAY_MS = 5_000;
+
+async function callWithRetry<T>(fn: () => Promise<T>): Promise<T> {
+  for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+    try {
+      return await fn();
+    } catch (err: any) {
+      const isRetryable =
+        err?.status === 529 ||
+        err?.status === 502 ||
+        err?.status === 503 ||
+        err?.error?.type === "overloaded_error";
+
+      if (isRetryable && attempt < MAX_RETRIES) {
+        console.warn(`API sobrecarregada, tentativa ${attempt}/${MAX_RETRIES}. Aguardando ${RETRY_DELAY_MS / 1000}s...`);
+        await new Promise((r) => setTimeout(r, RETRY_DELAY_MS * attempt));
+        continue;
+      }
+      throw err;
+    }
+  }
+  throw new Error("Máximo de tentativas excedido");
+}
 
 type DocType = "TR" | "EDITAL" | "DESCONHECIDO";
 
@@ -90,12 +113,14 @@ async function classifyDocument(files: ExtractedFile[]): Promise<DocType> {
     }
   }
 
-  const response = await anthropic.messages.create({
-    model,
-    max_tokens: 20,
-    system: CLASSIFICATION_PROMPT,
-    messages: [{ role: "user", content: blocks }],
-  });
+  const response = await callWithRetry(() =>
+    anthropic.messages.create({
+      model,
+      max_tokens: 20,
+      system: CLASSIFICATION_PROMPT,
+      messages: [{ role: "user", content: blocks }],
+    })
+  );
 
   const answer = response.content
     .filter((block) => block.type === "text")
@@ -149,12 +174,14 @@ export async function analyzeDocument(
   const contentBlocks = buildContentBlocks(files, prefix);
 
   // Passo 3: Analisar
-  const response = await anthropic.messages.create({
-    model,
-    max_tokens: 4096,
-    system: systemPrompt,
-    messages: [{ role: "user", content: contentBlocks }],
-  });
+  const response = await callWithRetry(() =>
+    anthropic.messages.create({
+      model,
+      max_tokens: 4096,
+      system: systemPrompt,
+      messages: [{ role: "user", content: contentBlocks }],
+    })
+  );
 
   const analysis = response.content
     .filter((block) => block.type === "text")
