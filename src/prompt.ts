@@ -41,7 +41,7 @@ Siga EXATAMENTE esta estrutura de saída:
 
 📅 *Certame:* [data e horário da sessão, ou "⚠️ NÃO IDENTIFICADA"]
 📣 *Impugnação até:* [data calculada com base no Art. 164 da Lei 14.133/2021: 3 dias úteis antes para pregão, 10 dias úteis antes para concorrência. Se não houver data do certame, informar "⚠️ Não calculável — data do certame ausente"]
-🧪 *POC da 1ª colocada:* [prazo, local, % mínima e condições. Se não prevista: "Não prevista no documento"]
+🧪 *POC da 1ª colocada:* [Identifique o prazo previsto para a POC. IMPORTANTE: calcule a data provável da POC assumindo que a empresa seria habilitada na própria data do certame, e somando o prazo em dias úteis previsto no documento a partir dessa data. Informe: data provável calculada, prazo, local, % mínima e condições. Se não prevista: "Não prevista no documento"]
 
 ━━━━━━━━━━━━━━━━━━━━━━
 
@@ -131,7 +131,7 @@ Siga EXATAMENTE esta estrutura de saída:
 
 📅 *Certame:* [data e horário da sessão, ou "⚠️ NÃO IDENTIFICADA"]
 📣 *Impugnação até:* [data calculada com base no Art. 164 da Lei 14.133/2021: 3 dias úteis antes para pregão, 10 dias úteis antes para concorrência. Se não houver data do certame, informar "⚠️ Não calculável — data do certame ausente"]
-🧪 *POC da 1ª colocada:* [prazo, local, % mínima e condições. Se não prevista: "Não prevista no edital"]
+🧪 *POC da 1ª colocada:* [Identifique o prazo previsto para a POC. IMPORTANTE: calcule a data provável da POC assumindo que a empresa seria habilitada na própria data do certame, e somando o prazo em dias úteis previsto no edital a partir dessa data. Informe: data provável calculada, prazo, local, % mínima e condições. Se não prevista: "Não prevista no edital"]
 
 ━━━━━━━━━━━━━━━━━━━━━━
 
