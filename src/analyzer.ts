@@ -161,18 +161,17 @@ export async function analyzeDocument(
     .map((block) => block.text)
     .join("\n");
 
-  const header = `📋 *Documento identificado como: ${LABELS[docType]}*\n`;
   const visionNote = hasVision
-    ? `🔍 _PDF escaneado detectado — análise feita via leitura visual (Claude Vision)_\n`
+    ? `\n🔍 _PDF escaneado — análise via leitura visual_\n`
     : "";
   const truncatedNote = files.some(
     (f) => f.text && f.text.length >= MAX_TEXT_LENGTH
   )
-    ? `\n⚠️ _Documento truncado por ser muito extenso. A análise cobre apenas a parte inicial._`
+    ? `\n⚠️ _Documento truncado por ser muito extenso._`
     : "";
 
   return {
     docType,
-    analysis: header + visionNote + "\n" + analysis + truncatedNote,
+    analysis: visionNote + analysis + truncatedNote,
   };
 }
